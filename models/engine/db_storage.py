@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains the class DBStorage
+"""Contains the class DBStorage
 """
 
 import models
@@ -21,7 +20,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """Interacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -41,7 +40,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """query on the current database session"""
+        """Query on the current database session"""
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
@@ -74,3 +73,38 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """Retrieves the specified object from storage
+
+        Args:
+            cls (str | class): The class name or class to filter for
+            id (str): The object ID
+
+        Returns:
+            The object if found, None otherwise
+        """
+        if cls is None or id is None:
+            return None
+        else:
+            objs = self.all(cls)
+            for obj in objs.values():
+                if obj.id == id:
+                    return obj
+            return None
+
+    def count(self, cls=None):
+        """Returns the number of objects in storage matching an
+        optional class
+
+        Args:
+            cls (str | class): The class name
+
+        Returns:
+            The number of objects in storage matching the class name or
+            the total number of objects.
+        """
+        if cls is None:
+            return len(self.all())
+        else:
+            return len(self.all(cls))
