@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""The Reviews view module
+"""The Place-Reviews view module
 """
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
 from models.review import Review
-from models.place import Place
 
 
 @app_views.route('/places/<place_id>/reviews', strict_slashes=False)
