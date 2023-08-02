@@ -67,6 +67,7 @@ def create_place(city_id):
 
     if data.get("name") is None:
         return jsonify({"error": "Missing name"}), 400
+    data["city_id"] = city_id
     place = Place(**data)
     place.save()
     return jsonify(place.to_dict()), 201
