@@ -37,11 +37,11 @@ def state(state_id):
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
 
-        for key, value in data.items():
-            if key not in ["id", "created_at", "updated_at"]:
-                setattr(state, key, value)
-        storage.save()
-        return jsonify(state.to_dict()), 200
+    for key, value in data.items():
+        if key not in ["id", "created_at", "updated_at"]:
+            setattr(state, key, value)
+    storage.save()
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
