@@ -3,8 +3,8 @@
 """
 from os import getenv
 
-from flask import Flask
-from flask import jsonify
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 from api.v1.views import app_views
 from models import storage
@@ -12,6 +12,7 @@ from models import storage
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
