@@ -6,6 +6,7 @@ from flask import jsonify, request
 from models import storage
 from models.amenity import Amenity
 
+
 @app_views.route('/amenities', strict_slashes=False)
 def amenities():
     """Returns a JSON string containing all amenity objects
