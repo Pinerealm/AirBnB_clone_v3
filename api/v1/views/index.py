@@ -16,7 +16,7 @@ def status():
 
 @app_views.route('/stats', strict_slashes=False)
 def stats():
-    """Returns a JSON string with the stats
+    """Returns a JSON string containing the no of objects in each class
     """
     return jsonify({"amenities": storage.count("Amenity"),
                     "cities": storage.count("City"),
