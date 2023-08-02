@@ -4,7 +4,7 @@
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
-from models.state import City
+from models.city import City
 
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False)
