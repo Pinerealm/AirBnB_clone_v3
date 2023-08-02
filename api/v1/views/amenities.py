@@ -26,17 +26,17 @@ def amenity(amenity_id):
         return jsonify({"error": "Not found"}), 404
     if request.method == 'GET':
         return jsonify(amenity.to_dict())
-    
+
     if request.method == 'DELETE':
         storage.delete(amenity)
         storage.save()
         return jsonify({}), 200
-    
+
     if request.method == 'PUT':
         data = request.get_json(silent=True)
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
-    
+
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(amenity, key, value)
