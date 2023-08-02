@@ -19,29 +19,28 @@ def states():
 @app_views.route('/states/<state_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
 def state(state_id):
-    """Handles GET and DELETE requests for a state object
+    """Handles GET and DELETE and PUT requests for a state object
     """
     state = storage.get("State", state_id)
     if state is None:
         return jsonify({"error": "Not found"}), 404
     if request.method == 'GET':
         return jsonify(state.to_dict())
-    
+
     if request.method == 'DELETE':
         storage.delete(state)
         storage.save()
         return jsonify({}), 200
 
     if request.method == 'PUT':
-        try:
-            data = request.get_json()
-        except Exception:
-            return jsonify({"error": "Not a JSON"}), 400
+        data = request.get_json(silent=True)
+    if data is None:
+        return jsonify({"error": "Not a JSON"}), 400
 
         for key, value in data.items():
             if key not in ["id", "created_at", "updated_at"]:
                 setattr(state, key, value)
-        state.save()
+        storage.save()
         return jsonify(state.to_dict()), 200
 
 
@@ -49,9 +48,8 @@ def state(state_id):
 def create_state():
     """Creates a state object
     """
-    try:
-        data = request.get_json()
-    except Exception:
+    data = request.get_json(silent=True)
+    if data is None:
         return jsonify({"error": "Not a JSON"}), 400
 
     if data.get("name") is None:
