@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-""" holds class User"""
+"""The User module
+"""
+from hashlib import md5
+
 import models
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
@@ -26,4 +27,7 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if "password" in kwargs:
+            passwd = md5(kwargs["password"].encode('utf-8')).hexdigest()
+            kwargs["password"] = passwd
         super().__init__(*args, **kwargs)
