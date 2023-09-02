@@ -84,7 +84,7 @@ class DBStorage:
         Returns:
             The object if found, None otherwise
         """
-        if cls is None or id is None:
+        if cls not in classes and cls not in classes.values():
             return None
         else:
             objs = self.all(cls)
